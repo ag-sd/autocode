@@ -4,7 +4,6 @@
 
 #   from pkg_resources      import resource_string
 from sqlite3 import connect, Error
-from datetime import datetime
 from FileItem import FileItem
 
 #   resource_string('resources.database', "Autocode.sqlite3")
@@ -79,7 +78,7 @@ def __insert_file(connection, file_item):
     """
     cursor = connection.cursor()
     cursor.execute(__SQL_INSERT__, (file_item.file_name, file_item.file_path, file_item.file_size,
-                                    file_item.file_status, datetime.now()))
+                                    file_item.file_status, file_item.start_time))
     connection.commit()
 
 
@@ -92,7 +91,7 @@ def __update_file(connection, file_item):
     """
     cursor = connection.cursor()
     cursor.execute(__SQL_UPDATE__, (file_item.encoded_file_name, file_item.encoded_file_path,
-                                    file_item.encoded_file_size, file_item.codec, datetime.now(),
+                                    file_item.encoded_file_size, file_item.codec, file_item.end_time,
                                     file_item.file_status, file_item.file_name, file_item.file_path,
                                     file_item.file_status))
     connection.commit()

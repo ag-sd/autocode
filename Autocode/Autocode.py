@@ -24,8 +24,8 @@
 
 from time import sleep
 from datetime import datetime
-from utils import database, file
-from utils.FileItem import FileItem
+from Autocode.utils import database, file
+from Autocode.utils.FileItem import FileItem
 
 MAX_HOURS = 10
 
@@ -67,14 +67,15 @@ def begin_execution(input_dir, output_dir, encoder, max_hours):
 
             if len(db_file):
                 file_to_encode = FileItem(db_file[0].file_name, db_file[0].file_path, db_file[0].file_size)
-                file_to_encode.file_status = db_file[0].file_status
+                file_to_encode.set_started(output_dir, file_to_encode.file_name, encoder)
                 database.update_file(file_to_encode)
                 print str(file_to_encode) + " has been previously processed but not successfully! \n " \
                                             "Attempting to re-encode"
             else:
                 file_to_encode = FileItem(curr_file.file_name, curr_file.file_path, curr_file.file_size)
+                file_to_encode.set_started(output_dir, file_to_encode.file_name, encoder)
                 database.insert_file(file_to_encode)
-            file_to_encode.set_started(output_dir, file_to_encode.file_name, encoder)
+
             encode_file(file_to_encode)
 
             file_to_encode.set_complete()
@@ -90,6 +91,7 @@ def begin_execution(input_dir, output_dir, encoder, max_hours):
     print "Encoding completed. Processed " + str(process_count) + " files."
 
 #https://docs.python.org/2/library/subprocess.html#subprocess.Popen
+#ag-sdev@outlook.com
 def encode_file(file_item):
     sleep(1)
 

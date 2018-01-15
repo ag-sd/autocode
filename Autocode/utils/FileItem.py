@@ -25,7 +25,7 @@ class FileItem:
 
     @classmethod
     def from_db(cls, file_name, file_path, file_size, file_status, start_time, finish_time, encoded_file_name,
-                            encoded_file_path, encoded_file_size, codec):
+                encoded_file_path, encoded_file_size, codec):
         item = cls(file_name, file_path, file_size)
         item.file_status = file_status
         item.start_time = start_time
